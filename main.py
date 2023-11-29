@@ -19,7 +19,7 @@ def take_input():
             return amount
         except:
             print("Not a number!")
-
+            return 0
 
 
 if __name__ == '__main__':
