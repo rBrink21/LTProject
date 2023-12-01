@@ -2,24 +2,30 @@ import math
 
 
 class BillCalculator:
-    def __init__(self, amount):
+    def __init__(self, amount_in_cents):
         self.denominations = [100, 50, 20, 10, 5, 1, 0.25, 0.10, 0.05, 0.01]
-        self.amount = amount
+
+        # Amount needs to be in cents/integer in order to avoid floating point math
+        self.amountInCents = round(amount_in_cents * 100)
 
         self.bill_list = self.create_bill_list()
         self.bill_string_list = self.bill_list_to_string(self.bill_list)
 
     def calculate_bill_amount(self, amount, denomination):
         # Round down to nearest integer
+
         return math.floor(amount / denomination)
 
     def create_bill_list(self):
         bill_list = []
-        amount = self.amount
+        amount_in_cents = self.amountInCents
+
         for denomination in self.denominations:
-            bill_amount = self.calculate_bill_amount(amount, denomination)
+            denomination_in_cents = denomination * 100
+            bill_amount = self.calculate_bill_amount(amount_in_cents, denomination_in_cents)
             bill_list.append(bill_amount)
-            amount = amount % denomination
+            amount_in_cents = amount_in_cents % denomination_in_cents
+
         return bill_list
 
     def denomination_to_string(self, amount):
